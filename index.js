@@ -52,7 +52,7 @@ app.post("/login",(req,res)=>{
        
         const nome = req.body.nomeuser;
         
-        client.query("SELECT * FROM TAREFAS WHERE usuario= ($1)",
+        client.query("SELECT * FROM TAREFAS WHERE usuario= ($1) and status ='backlog' ",
         [nome]).then((result) => {
             console.log(result.rows)
             console.log(result.rows.titulo)
@@ -69,7 +69,7 @@ app.post("/login",(req,res)=>{
        
           const nome = req.body.nomeuser;
           
-          client.query("SELECT * FROM TAREFAS1 WHERE usuario= ($1)",
+          client.query("SELECT * FROM TAREFAS WHERE usuario= ($1) and status = 'developing'",
           [nome]).then((result) => {
               console.log(result.rows)
               console.log(result.rows.titulo)
@@ -107,7 +107,7 @@ app.post("/login",(req,res)=>{
        
             const nome = req.body.nomeuser;
             
-            client.query("SELECT * FROM TAREFAS2 WHERE usuario= ($1)",
+            client.query("SELECT * FROM TAREFAS WHERE usuario= ($1) and status =  'finished' ",
             [nome]).then((result) => {
                 console.log(result.rows)
                 console.log(result.rows.titulo)
@@ -129,7 +129,7 @@ app.post("/inserirNaTabelaBacklog",(req,res)=>{
           const user = req.body.user;
           
           
-          client.query("insert into tarefas(titulo, descricao, data, hora, usuario)  values (($1),($2),($3),($4),($5))",
+          client.query("insert into tarefas(titulo, descricao, data, hora, usuario,status)  values (($1),($2),($3),($4),($5), 'backlog')",
           [titulo,descricao,data,hora,user]).then((result) => {
               console.log(result.rows)
               console.log(result.rows.titulo)
@@ -142,6 +142,95 @@ app.post("/inserirNaTabelaBacklog",(req,res)=>{
               
           }
           );
+          app.post("/mudarStatusDev",(req,res)=>{
+       
+            const titulo = req.body.titul;
+            const descricao = req.body.descricao;
+            const data = req.body.data;
+            const hora = req.body.hora;
+            const user = req.body.user;
+            
+            
+            client.query("update tarefas set status= 'developing' where titulo=($1) and desecricao = ($2) and data = ($3) and hora = ($4) and usuario = ($4)",
+            [titulo,descricao,data,hora,user]).then((result) => {
+                console.log(result.rows)
+                console.log(result.rows.titulo)
+                res.send(result)
+              })
+              .catch((error) => {
+                console.error('Erro na query:', error);
+                res.status(500).send('Erro na execução da query');
+              });
+                
+            }
+            );
+            app.post("/mudarStatusFin",(req,res)=>{
+       
+              const titulo = req.body.titul;
+              const descricao = req.body.descricao;
+              const data = req.body.data;
+              const hora = req.body.hora;
+              const user = req.body.user;
+              
+              
+              client.query("update tarefas set status= 'finished' where titulo=($1) and desecricao = ($2) and data = ($3) and hora = ($4) and usuario = ($4)",
+              [titulo,descricao,data,hora,user]).then((result) => {
+                  console.log(result.rows)
+                  console.log(result.rows.titulo)
+                  res.send(result)
+                })
+                .catch((error) => {
+                  console.error('Erro na query:', error);
+                  res.status(500).send('Erro na execução da query');
+                });
+                  
+              }
+              );
+              app.post("/finparadev",(req,res)=>{
+       
+                const titulo = req.body.titul;
+                const descricao = req.body.descricao;
+                const data = req.body.data;
+                const hora = req.body.hora;
+                const user = req.body.user;
+                
+                
+                client.query("update tarefas set status= 'developing' where titulo=($1) and desecricao = ($2) and data = ($3) and hora = ($4) and usuario = ($4)",
+                [titulo,descricao,data,hora,user]).then((result) => {
+                    console.log(result.rows)
+                    console.log(result.rows.titulo)
+                    res.send(result)
+                  })
+                  .catch((error) => {
+                    console.error('Erro na query:', error);
+                    res.status(500).send('Erro na execução da query');
+                  });
+                    
+                }
+                );
+                app.post("/devparaback",(req,res)=>{
+       
+                  const titulo = req.body.titul;
+                  const descricao = req.body.descricao;
+                  const data = req.body.data;
+                  const hora = req.body.hora;
+                  const user = req.body.user;
+                  
+                  
+                  client.query("update tarefas set status= 'backlog' where titulo=($1) and desecricao = ($2) and data = ($3) and hora = ($4) and usuario = ($4)",
+                  [titulo,descricao,data,hora,user]).then((result) => {
+                      console.log(result.rows)
+                      console.log(result.rows.titulo)
+                      res.send(result)
+                    })
+                    .catch((error) => {
+                      console.error('Erro na query:', error);
+                      res.status(500).send('Erro na execução da query');
+                    });
+                      
+                  }
+                  );
+  
 
 app.listen(3001, ()=>{
     console.log("rodando")
