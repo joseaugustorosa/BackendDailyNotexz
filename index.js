@@ -84,15 +84,14 @@ app.post("/login",(req,res)=>{
           );
           app.post("/ExcluirBacklog",(req,res)=>{
        
-          const titulo = req.body.titulo;
-          const data = req.body.data;
-          const hora = req.body.hora;
+          const id = req.body.id;
           const user = req.body.user;
           
-          client.query("DELETE FROM TAREFAS WHERE USUARIO = ($1) and titulo =($2) and hora = ($3) and data =($4)",
-          [user,titulo,hora,data]).then((result) => {
-              console.log("DELETE FROM TAREFAS WHERE USUARIO =  and titulo =($2) and hora = ($3) and data =($4)",user,titulo,hora,data)
-              console.log(result.rows)
+          
+          client.query("DELETE FROM TAREFAS WHERE id = ($1) and usuario = ($2)",
+          [id,user]).then((result) => {
+            
+            console.log(result.rows)
               console.log(result.rows.titulo)
               res.send(result)
             })
@@ -127,10 +126,11 @@ app.post("/inserirNaTabelaBacklog",(req,res)=>{
           const data = req.body.data;
           const hora = req.body.hora;
           const user = req.body.user;
+          const id = req.body.id;
           
           
-          client.query("insert into tarefas(titulo, descricao, data, hora, usuario,status)  values (($1),($2),($3),($4),($5), 'backlog')",
-          [titulo,descricao,data,hora,user]).then((result) => {
+          client.query("insert into tarefas(titulo, descricao, data, hora, usuario,status,id)  values (($1),($2),($3),($4),($5), 'backlog', ($6))",
+          [titulo,descricao,data,hora,user,id]).then((result) => {
               console.log(result.rows)
               console.log(result.rows.titulo)
               res.send(result)
