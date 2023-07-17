@@ -2,33 +2,36 @@ const express= require("express");
 const app = express();
 const { Client } = require('pg');
 const cors = require("cors");
+
 //Novo banco ELEPHANTSQL
 const client = new Client({
   connectionString: 'postgres://ayjbqzbw:DPEBY_x71hlMmImLBNGq4AwY8rUjTQPo@tuffi.db.elephantsql.com/ayjbqzbw',
-  });
+});
+
 app.use(cors())
 app.use(express.json());
 
 client.connect()
   .then(() => {
     console.log('Conexão estabelecida com o PostgreSQL!');
-  })
+})
   .catch((err) => {
     console.error('Erro ao conectar ao PostgreSQL:', err);
-  });
+});
+
 client.query('SELECT * FROM login')
   .then((result) => {
     console.log('Resultado da consulta:', result.rows);
-  })
+})
   .catch((err) => {
     console.error('Erro ao executar a consulta:', err);
-  });
+});
 
 app.post("/login",(req,res)=>{
     const email = req.body.email;
     const senha = req.body.pass;
     console.log( senha)
-    client.query("SELECT * FROM LOGIN WHERE nome_usuario= ($1) AND senha = ($2)",
+    client.query("SELECT * FROM LOGIN WHERE usuario= ($1) AND senha = ($2)",
     [email, senha]).then((result) => {
         console.log(result.rows)
         console.log(result.rows.nome)
