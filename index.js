@@ -2,15 +2,9 @@ const express= require("express");
 const app = express();
 const { Client } = require('pg');
 const cors = require("cors");
-// const bcrypt = require("bcrypt");
-// const SaltRounds = 10;
-
+//Novo banco ELEPHANTSQL
 const client = new Client({
-    user: 'postgres',
-    host: 'containers-us-west-131.railway.app',
-    database: 'railway',
-    password: 'lOnlgAp1iVBKNOAHirIJ',
-    port: '8060',
+  connectionString: 'postgres://ayjbqzbw:DPEBY_x71hlMmImLBNGq4AwY8rUjTQPo@tuffi.db.elephantsql.com/ayjbqzbw',
   });
 app.use(cors())
 app.use(express.json());
