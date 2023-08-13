@@ -6,8 +6,9 @@ app.use(cors())
 app.use(express.json());
 async function ReadBacklog(req,res) {
     const nome = req.body.nomeuser;
-    client.query("SELECT * FROM TAREFAS WHERE usuario= ($1) and status ='backlog' ",
-    [nome]).then((result) => {
+    const quadro = req.body.quadro;
+    client.query("SELECT * FROM TAREFAS WHERE usuario= ($1) and status ='backlog' and quadro = ($2)",
+    [nome,quadro]).then((result) => {
         res.send(result)
     })
     .catch((error) => {
@@ -17,8 +18,9 @@ async function ReadBacklog(req,res) {
 }
 async function ReadDeveloping(req,res) {
     const nome = req.body.nomeuser;
-    client.query("SELECT * FROM TAREFAS WHERE usuario= ($1) and status = 'developing'",
-    [nome]).then((result) => {
+    const quadro = req.body.quadro;
+    client.query("SELECT * FROM TAREFAS WHERE usuario= ($1) and status = 'developing' and quadro = ($2)",
+    [nome,quadro]).then((result) => {
         res.send(result)
     })
     .catch((error) => {
@@ -28,8 +30,9 @@ async function ReadDeveloping(req,res) {
 }
 async function ReadFinished(req,res) {
     const nome = req.body.nomeuser;
-    client.query("SELECT * FROM TAREFAS WHERE usuario= ($1) and status =  'finished' ",
-    [nome]).then((result) => {
+    const quadro = req.body.quadro;
+    client.query("SELECT * FROM TAREFAS WHERE usuario= ($1) and status =  'finished'  and quadro = ($2)",
+    [nome,quadro]).then((result) => {
         res.send(result)
     })
     .catch((error) => {
