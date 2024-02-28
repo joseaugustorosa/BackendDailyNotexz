@@ -20,7 +20,7 @@ const { ReadBacklog, ReadDeveloping, ReadFinished  } = require('./chamadas/busca
 const { DeleteTask,InsertTask  } = require('./chamadas/InserirExcluir.js');
 const { BacklogToDev,DevToFin,FinToDev,DevToBack } = require('./chamadas/mudarStatus.js');
 const { buscarQuadros ,CriarQuadros } = require('./chamadas/quadros.js');
-const { BuscarDevInfo, InsertDevInfo} = require('./chamadas/grid_dev.js');
+const { BuscarDevInfo, InsertDevInfo,editDev,deleteDev} = require('./chamadas/grid_dev.js');
 //========= Configuração endPoints ============//
 app.post("/login",Login);   
 app.post("/popularTabelaBacklog",ReadBacklog);
@@ -36,6 +36,8 @@ app.post("/criarQuadro",CriarQuadros);
 app.post("/buscarQuadros",buscarQuadros);
 app.post("/infodevs",BuscarDevInfo);
 app.post("/insertdevs",InsertDevInfo);
+app.post("/editDev",editDev);
+app.post("/deleteDev",deleteDev);
 app.listen(3001, ()=>{
     console.log("rodando")
 });
